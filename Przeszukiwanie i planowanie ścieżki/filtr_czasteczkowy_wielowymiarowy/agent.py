@@ -91,7 +91,9 @@ class Agent:
             new_P_y.append(self.p[index][1])
             new_P_phi.append(self.p[index][2])
         # ------------------
-        self.p = np.array( [new_P_x,new_P_y,new_P_phi]).T
+        self.p[:, 0] = new_P_x
+        self.p[:, 1] = new_P_y
+        self.p[:, 2] = new_P_phi
         # this function does not return anything
         return
 

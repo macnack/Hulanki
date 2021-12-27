@@ -22,7 +22,7 @@ class Agent:
         # create an initial particle set as 2-D numpy array with size (self.n, 3) (self.p)
         # and initial weights as 1-D numpy array (self.w)
         self.p = np.ones((self.n, 3)) / self.n
-        self.w = np.full(self.n,1) / self.n
+        self.w = np.full(self.n, 1) / self.n
         # TODO PUT YOUR CODE HERE
 
         # ------------------
@@ -46,10 +46,10 @@ class Agent:
         # predict posterior using requested action
         # TODO PUT YOUR CODE HERE
         for i in range(len(self.p)):
-            self.p[i][2] = (self.p[i][2] + np.random.normal(action, self.sigma_move_turn)[0] ) % (2 * np.pi)
+            self.p[i][2] = (self.p[i][2] + np.random.normal(action, self.sigma_move_turn)[0]) % (2 * np.pi)
             [x, y] = moveForward((self.p[i][0], self.p[i][1]), self.p[i][2], np.random.normal(1, self.sigma_move_fwd))
-            self.p[i][0] = x
-            self.p[i][1] = y
+            self.p[i, 0] = x
+            self.p[i, 1] = y
         # ------------------
         # this function does not return anything
         return
@@ -57,8 +57,7 @@ class Agent:
     def calculate_weights(self, percept):
         # calculate weights using percept
         # TODO PUT YOUR CODE HERE
-        # self.w = np.ones(self.n)
-        for i in range(self.n):
+        for i in range(len(self.w)):
             for z in range(len(self.landmarks)):
                 dist = np.sqrt((self.p[i][0] - self.landmarks[z][0]) ** 2 + (self.p[i][1] - self.landmarks[z][1]) ** 2)
                 self.w[i] *= np.exp(- ((dist - percept[z]) ** 2) / (2.0 * self.sigma_perc))
@@ -79,7 +78,7 @@ class Agent:
         index = rng.integers(0, len(self.p))
         beta = 0.0
         mw = max(self.w)
-        for i in range(np.size(self.w)):
+        for i in range(len(self.p)):
             beta += np.random.uniform(0, 2.0 * mw)
             # iteracyjne szukanie polozenia
             while beta > self.w[index]:
@@ -87,9 +86,10 @@ class Agent:
                 beta -= self.w[index]
                 index = (index - 1) % len(self.p)
             # dodanie czasteczki
-            new_P_x.append(self.p[index][0])
-            new_P_y.append(self.p[index][1])
-            new_P_phi.append(self.p[index][2])
+            new_P_x.append(self.p[index, 0])
+            new_P_y.append(self.p[index, 1])
+            new_P_phi.append(self.p[index, 2])
+
         # ------------------
         self.p[:, 0] = new_P_x
         self.p[:, 1] = new_P_y

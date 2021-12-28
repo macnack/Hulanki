@@ -21,7 +21,10 @@ class Agent:
         self.n = 500
         # create an initial particle set as 2-D numpy array with size (self.n, 3) (self.p)
         # and initial weights as 1-D numpy array (self.w)
-        self.p = np.ones((self.n, 3)) / self.n
+        rng = np.random.default_rng()
+        self.p = np.ones((self.n, 3))
+        self.p[:, 0:2] = self.n * rng.random((self.n, 2))
+        self.p[:, 2] = 2 * np.pi * rng.random(self.n)
         self.w = np.full(self.n, 1) / self.n
         # TODO PUT YOUR CODE HERE
 

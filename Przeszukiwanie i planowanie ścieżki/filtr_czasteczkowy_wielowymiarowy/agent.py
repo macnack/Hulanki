@@ -21,12 +21,11 @@ class Agent:
         self.n = 500
         # create an initial particle set as 2-D numpy array with size (self.n, 3) (self.p)
         # and initial weights as 1-D numpy array (self.w)
-        rng = np.random.default_rng()
         self.p = np.ones((self.n, 3))
         for i in range(self.n):
             self.p[i, 0] = self.size * random.random()
             self.p[i, 1] = self.size * random.random()
-            self.p[i][2] = 2 * np.pi * random.random()
+            self.p[i][2] = (np.pi / 2.0) * random.random()
         self.w = np.full(self.n, 1) / self.n
         # TODO PUT YOUR CODE HERE
 
@@ -66,6 +65,7 @@ class Agent:
         # calculate weights using percept
         # TODO PUT YOUR CODE HERE
         for i in range(len(self.w)):
+            self.w[i] = 1
             for z in range(len(self.landmarks)):
                 dist = np.sqrt((self.p[i][0] - self.landmarks[z][0]) ** 2 + (self.p[i][1] - self.landmarks[z][1]) ** 2)
                 self.w[i] *= np.exp(- ((dist - percept[z]) ** 2) / (2.0 * self.sigma_perc))

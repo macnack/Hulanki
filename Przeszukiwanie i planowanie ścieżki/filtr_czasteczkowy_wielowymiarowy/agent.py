@@ -23,8 +23,10 @@ class Agent:
         # and initial weights as 1-D numpy array (self.w)
         rng = np.random.default_rng()
         self.p = np.ones((self.n, 3))
-        self.p[:, 0:2] = self.n * rng.random((self.n, 2))
-        self.p[:, 2] = 2 * np.pi * rng.random(self.n)
+        for i in range(self.n):
+            self.p[i, 0] = self.size * random.random()
+            self.p[i, 1] = self.size * random.random()
+            self.p[i][2] = 2 * np.pi * random.random()
         self.w = np.full(self.n, 1) / self.n
         # TODO PUT YOUR CODE HERE
 
@@ -48,9 +50,12 @@ class Agent:
     def predict_posterior(self, action):
         # predict posterior using requested action
         # TODO PUT YOUR CODE HERE
+        rotate_ = action[0]
+        move_ = action[1]
         for i in range(len(self.p)):
-            self.p[i][2] = (self.p[i][2] + np.random.normal(action, self.sigma_move_turn)[0]) % (2 * np.pi)
-            [x, y] = moveForward((self.p[i][0], self.p[i][1]), self.p[i][2], np.random.normal(1, self.sigma_move_fwd))
+            self.p[i][2] = (self.p[i][2] + np.random.normal(rotate_, self.sigma_move_turn)) % (2 * np.pi)
+            [x, y] = moveForward((self.p[i][0], self.p[i][1]), self.p[i][2],
+                                 np.random.normal(move_, self.sigma_move_fwd))
             self.p[i, 0] = x
             self.p[i, 1] = y
         # ------------------

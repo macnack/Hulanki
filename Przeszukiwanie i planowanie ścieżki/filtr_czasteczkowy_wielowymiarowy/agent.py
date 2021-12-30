@@ -18,14 +18,14 @@ class Agent:
         self.sigma_perc = sigma_perc
 
         self.t = 0
-        self.n = 500
+        self.n = 1000
         # create an initial particle set as 2-D numpy array with size (self.n, 3) (self.p)
         # and initial weights as 1-D numpy array (self.w)
         self.p = np.ones((self.n, 3))
         for i in range(self.n):
             self.p[i, 0] = self.size * random.random()
             self.p[i, 1] = self.size * random.random()
-            self.p[i][2] = (np.pi / 2.0) * random.random()
+            self.p[i, 2] = (math.pi / 2.0) * random.random()
         self.w = np.full(self.n, 1) / self.n
         # TODO PUT YOUR CODE HERE
 

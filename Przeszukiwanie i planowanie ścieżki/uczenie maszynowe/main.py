@@ -145,7 +145,7 @@ def train(data):
     """
     # train random forest model and return it from function.
     # TODO PUT YOUR CODE HERE
-    clf = RandomForestClassifier(len(data))
+    clf = RandomForestClassifier(128)
     x_matrix = np.empty((1, 128))
     y_vector = []
     for sample in data:
@@ -196,7 +196,7 @@ def predict(rf, data):
     # perform prediction using trained model and add results as "label_pred" (int) entry in sample
     # TODO PUT YOUR CODE HERE
     for sample in data:
-        sample.update({'label_pred': rf.predict(sample['desc'])})
+        sample.update({'label_pred': rf.predict(sample['desc'][0])})
     # ------------------
 
     return data
@@ -218,7 +218,10 @@ def evaluate(data):
         y_real.append(sample['label'])
 
     confusion = confusion_matrix(y_real, y_pred)
+    _TPa, _Eba, _Eca, _Eab, _TPb, _Ecb, _Eac, _Ebc, _TPc = confusion.ravel()
     print(confusion)
+    accuracy = 100 * (_TPa + _TPb + _TPc) / (_TPa + _Eba + _Eca + _Eab + _TPb + _Ecb + _Eac + _Ebc + _TPc)
+    print("accuracy =", round(accuracy, 2), "%")
     # ------------------
     # this function does not return anything
     return
@@ -281,7 +284,6 @@ def main():
     data_train = load_data('./', 'Train.csv')
     data_test = load_data('./', 'Test.csv')
 
-    # you can comment those lines after dictionary is learned and saved to disk.
     print('learning BoVW')
     if os.path.isfile('voc.npy'):
         print('BoVW is already learned')
@@ -293,11 +295,11 @@ def main():
     print('training')
     rf = train(data_train)
     print('extracting test features')
-    # data_test = extract_features(data_test)
+    data_test = extract_features(data_test)
     print('testing')
-    # data_test = predict(rf, data_test)
-    # evaluate(data_test)
-    # display(data_test)
+    data_test = predict(rf, data_test)
+    evaluate(data_test)
+    display(data_test)
 
     return
 

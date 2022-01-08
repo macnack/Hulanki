@@ -196,7 +196,7 @@ def predict(rf, data):
     # perform prediction using trained model and add results as "label_pred" (int) entry in sample
     # TODO PUT YOUR CODE HERE
     for sample in data:
-        sample.update({'label_pred': rf.predict(sample['desc'][0])})
+        sample.update({'label_pred': rf.predict(sample['desc'])[0]})
     # ------------------
 
     return data

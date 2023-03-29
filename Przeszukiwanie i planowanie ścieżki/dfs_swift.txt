@@ -1,0 +1,26 @@
+struct Node {
+    var value: Int
+    var visited: Bool = false
+    var neighbors: [Node] = []
+}
+
+func dfs(_ node: Node) {
+    print(node.value)
+    node.visited = true
+    for neighbor in node.neighbors {
+        if !neighbor.visited {
+            dfs(neighbor)
+        }
+    }
+}
+
+let node1 = Node(value: 1)
+let node2 = Node(value: 2)
+let node3 = Node(value: 3)
+let node4 = Node(value: 4)
+
+node1.neighbors = [node2, node3]
+node2.neighbors = [node4]
+node3.neighbors = [node4]
+
+dfs(node1)

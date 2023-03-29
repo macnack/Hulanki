@@ -8,7 +8,6 @@ graf_sasiedztwa = {1: [2, 3],
                    6: [4, 7, 5, 8],
                    7: [6],
                    8: [5, 6]}
- 
 visited = set()
 q = queue.Queue()
 parent = {n: None for n in graf_sasiedztwa}
@@ -17,6 +16,7 @@ cel = 7
 q.put(start)
  
 while not q.empty():
+
     cur_n = q.get()
     ####
     ####
